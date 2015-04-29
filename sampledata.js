@@ -6,7 +6,7 @@ var cancelled = false;
 var sampledata = function(socket) {
   if(cancelled) return;
   s.write("StringStringString");
-  setTimeout(sampledata,100);
+  setTimeout(sampledata,1000);
 };
 
 // server
@@ -30,7 +30,13 @@ var server = net.createServer(function (socket) {
 
     // close
     socket.on('end', function () {
-        console.log(socket.name + " left.\n");
+      console.log(socket.name + " left.\n");
+    });
+    
+    //error
+    socket.on('error', function () {
+      console.log(socket.name + " error -> closing connection.\n");
+      process.exit(1);
     });
     
     s = socket;
